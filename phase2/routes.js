@@ -1,25 +1,19 @@
 const Twilio = require('twilio');
-const Hapi = require('hapi');
+const VoiceResponse = Twilio.twiml.VoiceResponse;
 const Boom = require('boom');   /* Used to create standardized HTTP error responses. */
 const Joi = require('joi');     /* Used for input validation */
-
-// Create a server with a host and port
-const server = Hapi.server({
-    host: '0.0.0.0',
-    port: 8080
-});
 
 const routes = [
     {
         method: 'GET',
-        path:'/',
+        path:'/phase2/',
         handler: {
-            file: 'index.html'
+            file: './phase2/index.html'
         }
     },
     {
         method: 'POST',
-        path: '/callUser',
+        path: '/phase2/callUser',
         handler: function (request, response) {
             let phone = request.payload.phone; /* Validated with Joi in config section below */
 
@@ -29,23 +23,25 @@ const routes = [
 
             return client.api.calls
               .create({
-                url: 'http://demo.twilio.com/docs/voice.xml',
+                url: 'http://' + request.info.host + '/phase1/phoneBuzz',   /* No need to rewrite code, just call phase1 endpoint! */
                 to: phone,
                 from: '+15103451850',
               })
               .then((call) => {
+                  console.log("Calling user's number: " + phone);
                   return {
                       msg: "Calling provided number!"
                   };
               })
               .catch((error) => {
+                  console.log(error);
                   return Boom.serverUnavailable("Unable to make call. Please try again.");
               });
         },
         config: {
             validate: {
                 payload: {
-                    /* Ensure sure phone number is 10 digits long. */
+                    /* Ensure sure phone number is 10 digits long. Better phone number validation could be done here. */
                     phone: Joi.string().regex(/^\d{10}$/)
                 }
             }
@@ -53,21 +49,4 @@ const routes = [
     }
 ];
 
-
-// Start the server
-async function start() {
-
-    try {
-        await server.register(require('inert'));
-        server.route(routes);
-        await server.start();
-    }
-    catch (err) {
-        console.log(err);
-        process.exit(1);
-    }
-
-    console.log('Server running at:', server.info.uri);
-};
-
-start();
+module.exports = routes;
