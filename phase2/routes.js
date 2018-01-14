@@ -2,6 +2,8 @@ const Twilio = require('twilio');
 const VoiceResponse = Twilio.twiml.VoiceResponse;
 const Boom = require('boom');   /* Used to create standardized HTTP error responses. */
 const Joi = require('joi');     /* Used for input validation */
+const accountSid = 'AC52b0186c5cc86941663afe7256a6d9d6'; /* TODO: Remove these infavour of environment variables */
+const authToken = '61cfc3afa581d6ddc94b6af988fa9c20';
 
 const routes = [
     {
@@ -17,8 +19,6 @@ const routes = [
         handler: function (request, response) {
             let phone = request.payload.phone; /* Validated with Joi in config section below */
 
-            const accountSid = 'AC52b0186c5cc86941663afe7256a6d9d6';
-            const authToken = '61cfc3afa581d6ddc94b6af988fa9c20';
             const client = new Twilio(accountSid, authToken);
 
             return client.api.calls
