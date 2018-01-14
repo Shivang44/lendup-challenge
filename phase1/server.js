@@ -1,6 +1,6 @@
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const Hapi = require('hapi');
-const Boom = require('boom');
+const Boom = require('boom');   /* Used to create standardized HTTP error responses. */
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -46,8 +46,8 @@ function generateFizzBuzzString(digit) {
 * the fizzbuzz string must be limited, and a sensible limit is the number 800.
 */
 server.route({
-    method: 'GET',
-    path:'/gatherDigit',
+    method: 'POST',
+    path:'/phoneBuzz',
     handler: function (request, h) {
         let response = new VoiceResponse();
 
