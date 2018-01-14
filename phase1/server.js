@@ -26,19 +26,31 @@ function generateFizzBuzzString(digit) {
     return response;
 }
 
-// Add the route
+/*
+* Main route that twilio will call once a user calls our number. This route will
+* ask the user to enter a number between 1 and 800 (see note below for why)
+* and then call the appropriate route to say the fizzbuzz up to that number.
+*
+* If the user does not enter a number, an error message is spoken and the call
+* is hung up. The number range validation check is done in the /sayFizzBuzz route.
+*
+* Note: Twilio can say a maximum of 4096 unicode characters. Because of this,
+* the fizzbuzz string must be limited, and a sensible limit is the number 800.
+*/
 server.route({
     method: 'GET',
     path:'/gatherDigit',
     handler: function (request, h) {
+        console.log('Ran gatherDigit');
         let response = new VoiceResponse();
         const gather = response.gather({
           input: 'dtmf',
           action: '/sayFizzBuzz',
           method: 'GET',
-          timeout: 5
+          timeout: 5,
+          numDigits: 3
         });
-        gather.say('Please enter a number: ');
+        gather.say('Welcome to Phonebuzz. Please enter a number from 1 to 800: ');
         response.say('You did not enter a number. Please try again by recalling this number.');
         return response.toString();
     }
@@ -50,9 +62,10 @@ server.route({
     path:'/sayFizzBuzz',
     handler: function (request, h) {
         let response = new VoiceResponse();
-        let digit = request.query.Digits;
+        let digit = parseInt(request.query.Digits);
+        if (!parseInt(digit) || parseInt(digit) )
+
         let fizzBuzzString = generateFizzBuzzString(digit);
-        response.say(fizzBuzzString);
         return response.toString();
     }
 });
