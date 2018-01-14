@@ -1,6 +1,6 @@
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const Hapi = require('hapi');
-const TWILIO_SPEECH_LIMIT = 4096;
+const Boom = require('boom');
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -8,6 +8,14 @@ const server = Hapi.server({
     port: 8080
 });
 
+/*
+* A very simple Fizz Buzz String generator.
+*
+* Given a valid valid number n, this will generate from 1 up to n, with spaces
+* between each digit. If the digit is divisble by 3, "Fizz" is shown instead of
+* n. If the number is divisble by 5, "Buzz" is shown instead of n. If n is divisble
+* by both 3 and 5, "FizzBuzz" is shown instead of n.
+*/
 function generateFizzBuzzString(digit) {
     let response = "";
     for (var i = 1; i <= digit; i++) {
@@ -41,31 +49,55 @@ server.route({
     method: 'GET',
     path:'/gatherDigit',
     handler: function (request, h) {
-        console.log('Ran gatherDigit');
         let response = new VoiceResponse();
+
         const gather = response.gather({
           input: 'dtmf',
           action: '/sayFizzBuzz',
           method: 'GET',
-          timeout: 5,
+          timeout: 8,
           numDigits: 3
         });
         gather.say('Welcome to Phonebuzz. Please enter a number from 1 to 800: ');
-        response.say('You did not enter a number. Please try again by recalling this number.');
+
+        // If the user enters a number, this code will never be reached.
+        // If the user does not enter a number, we will speak an error message.
+        response.say('You did not enter a number. Please call and try again.');
         return response.toString();
     }
 });
 
-// Add the route
+/*
+*
+* This endpoint will be called by Twilio after the user enters a digit.
+
+* This endpoint will do error checking to make sure the digit is valid and within
+* the allowed range of [1, 800]. If it is a valid digit, a Fizz Buzz string
+* will be generated and spoken to the user.
+*
+*/
 server.route({
     method: 'GET',
     path:'/sayFizzBuzz',
     handler: function (request, h) {
-        let response = new VoiceResponse();
-        let digit = parseInt(request.query.Digits);
-        if (!parseInt(digit) || parseInt(digit) )
+        // Make sure the user's number was passed in the request.
+        if (typeof(request.query.Digits) === "undefined") {
+            // Return a 400 Bad Request error (client error)
+            return Boom.badRequest('Bad query. Digits must be defined.');
+        }
 
-        let fizzBuzzString = generateFizzBuzzString(digit);
+        let response = new VoiceResponse();
+
+        // Check whether the number is valid and within the allowed range of [1, 800]
+        let digit = parseInt(request.query.Digits);
+        if (isNaN(digit) || digit < 1 || digit > 800) {
+            response.say("The number must be in the range of 1 to 800. Please call and try again.");
+        } else {
+            // Valid number! Generate fizzbuzz string and say the string.
+            let fizzBuzzString = generateFizzBuzzString(digit);
+            response.say(fizzBuzzString);
+        }
+
         return response.toString();
     }
 });
