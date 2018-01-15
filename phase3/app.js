@@ -3,8 +3,6 @@ const VoiceResponse = Twilio.twiml.VoiceResponse;
 const Boom = require('boom');   /* Used to create standardized HTTP error responses. */
 const Joi = require('joi');     /* Used for input validation */
 const request = require('request');
-const accountSid = 'AC7c890db3d49a3f988f2ea19d9cf80369'; /* TODO: Remove these infavour of environment variables */
-const authToken = '416ca672786a7e75b34b59ee4b72b9ed';
 
 
 const routes = [

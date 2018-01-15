@@ -2,10 +2,18 @@ const Twilio = require('twilio');
 const VoiceResponse = Twilio.twiml.VoiceResponse;
 const Boom = require('boom');   /* Used to create standardized HTTP error responses. */
 const Joi = require('joi');     /* Used for input validation */
-const accountSid = 'AC7c890db3d49a3f988f2ea19d9cf80369'; /* TODO: Remove these infavour of environment variables */
-const authToken = '416ca672786a7e75b34b59ee4b72b9ed';
+const accountSid = process.env.accountSid;
+const authToken = process.env.authToken;
 
 const routes = [
+    // Home page for phase 2
+    {
+        method: 'GET',
+        path: '/phase2',
+        handler: {
+            file: './phase2/static/index.html'
+        }
+    },
     /*
     * This route will be invoked after the user enters his phone number and presses "Call Me."
     *
@@ -22,8 +30,14 @@ const routes = [
         handler: function (request, response) {
             let phone = request.payload.phone; /* Validated with Joi in config section below */
 
+            if (typeof(accountSid) === "undefined" || typeof(authToken) === "undefined") {
+                console.log("Twilio environment variables are not setup! Please refer to README.");
+                return Boom.serverUnavailable("Unable to make call. Please try again.");
+            }
+            
             const client = new Twilio(accountSid, authToken);
 
+            console.log("came");
             return client.api.calls
               .create({
                 url: 'http://' + request.info.host + '/phase1/phoneBuzz',   /* No need to rewrite code, just call phase1's endpoint! */
@@ -50,16 +64,6 @@ const routes = [
             }
         }
     },
-
-    // Home page for phase 2
-    {
-        method: 'GET',
-        path: '/phase2/',
-        handler: {
-            file: './phase2/static/index.html'
-        }
-    },
-
     // This route will serve all our static files (html, js, css)
     {
         method: 'GET',
