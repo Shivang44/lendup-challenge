@@ -22,7 +22,7 @@ function generateFizzBuzzString(digit) {
         }
 
         response += currentResp || i;
-        response += " ";
+        response += ",";
     }
     return response;
 }
