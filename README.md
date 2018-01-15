@@ -3,9 +3,9 @@ PhoneBuzz - a set of coding challenges by Lendup. Built with Nodejs, Hapijs, and
 
 # Configuring
 
-The environment variables "accountSid" and "authToken" need to be set to your Twilio credentials in your shell environment, so nodejs can read them with process.env.accountSid, etc. You will also need to change the "from" number in phase2's app.js on line 43. You can also change from the default port by setting the "PORT" environment variable. 
+The environment variables "accountSid" and "authToken" need to be set to your Twilio credentials in your shell environment, so nodejs can read them with process.env.accountSid, etc. You can set the PORT environment variable, too, if you want to run on a different port than the default 8080.
 
-Also, during development I used ngrok to create a tunnel to localhost so that Twilio could see my machine.
+You will also need to change the "from" number in phase2's app.js on line 43.
 
 # Build instructions
 After cloning the repo, building this app should be as simple as running:
