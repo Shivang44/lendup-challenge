@@ -3,6 +3,9 @@
 <head>
     <title>PhoneBuzz</title>
     <style>
+        body {
+            background-color: #fffffe;
+        }
         #content {
             position: relative;
             top: 250px;
@@ -33,12 +36,37 @@
 
 <body>
     <div id="content">
-        <form action="/phase2/callUser" method="POST">
+        <form action="/phase2/callUser" method="POST" id="mainForm">
             <h1>Please enter your 10-digit phone number without any spaces/dashes/parentheses/etc (e.g. 5555555555)</h1>
             <input type="text" name="phone" />
             <br />
-            <button type="submit">Call me</button>
+            <button type="submit" id="submitButton">Call me</button>
         </form>
     </div>
 </body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$('#submitButton').click(function(e){
+    e.preventDefault();
+    var phone = $('#mainForm').find("input[name='phone']").val().trim();
+
+    // Some basic client side validation to see if phone number is 10 digits long
+    if (/^\d{10}$/.test(phone)) {
+        // ajax call
+        swal({
+          title: "Calling phone number!",
+          icon: "success",
+        });
+    } else {
+        swal({
+          title: "Phone number not valid :(",
+          text: "Please enter a 10 digit phone number without any whitespace or other characters.",
+          icon: "error",
+        });
+    }
+
+});
+
+</script>
 </html>
