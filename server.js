@@ -7,7 +7,7 @@ const Phase3 = require('./phase3/app.js');
 // Create a server with a host and port
 const server = Hapi.server({
     host: '0.0.0.0',
-    port: 8080
+    port: process.env.PORT || 8080
 });
 
 // Start the server

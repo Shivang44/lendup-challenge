@@ -34,7 +34,7 @@ const routes = [
                 console.log("Twilio environment variables are not setup! Please refer to README.");
                 return Boom.serverUnavailable("Unable to make call. Please try again.");
             }
-            
+
             const client = new Twilio(accountSid, authToken);
 
             console.log("came");
