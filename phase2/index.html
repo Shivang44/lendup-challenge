@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PhoneBuzz</title>
+    <style>
+        #content {
+            position: relative;
+            top: 250px;
+            text-align: center;
+        }
+        #content h1 {
+            font-family: Helvetica;
+            font-size: 27px;
+            font-weight: 500;
+        }
+        #content input {
+            width: 250px;
+            height: 25px;
+            margin-bottom: 15px;
+        }
+        #content button {
+            background-color: #4CAF50;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 17px;
+            color: white;
+            padding: 16px 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <form action="/phase2/callUser" method="POST">
+            <h1>Please enter your 10-digit phone number without any spaces/dashes/parentheses/etc (e.g. 5555555555)</h1>
+            <input type="text" name="phone" />
+            <br />
+            <button type="submit">Call me</button>
+        </form>
+    </div>
+</body>
+</html>
