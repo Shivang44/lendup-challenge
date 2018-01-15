@@ -3,7 +3,7 @@ PhoneBuzz - a set of coding challenges by Lendup. Built with Nodejs, Hapijs, and
 
 # Configuring
 
-The environment variables "accountSid" and "authToken" need to be set in your shell environment, so nodejs can read them with process.env.accountSid, etc. 
+The environment variables "accountSid" and "authToken" need to be set to your Twilio credentials in your shell environment, so nodejs can read them with process.env.accountSid, etc. 
 
 You may want to change the port/hostname in server.js. Also, if your machine is like mine, Twilio can't reach it over the network. Using ngrok to create a tunnel to localhost solved that issue for me.
 
