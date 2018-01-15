@@ -94,6 +94,13 @@ const routes = [
 
             return response.toString();
         }
+    },
+    {
+        method: 'GET',
+        path: '/',
+        handler: function(request, reply) {
+            return "Please visit /phase2 and /phase3 of this domain to see the respective phases.";
+        }
     }
 ];
 

@@ -54,7 +54,7 @@ const routes = [
     // Home page for phase 2
     {
         method: 'GET',
-        path: '/phase2',
+        path: '/phase2/',
         handler: {
             file: './phase2/static/index.html'
         }
