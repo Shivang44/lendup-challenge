@@ -8,6 +8,13 @@ const authToken = '416ca672786a7e75b34b59ee4b72b9ed';
 
 
 const routes = [
+    /*
+    * Phase 3 is the same as phase 2, with the addition of a "delay" user parameter.
+    *
+    * This route will take the provided phone number and delay in the payload, validate them with Joi,
+    * and then after the delay amount has passed, it will call the route from phase 2 that has already
+    * implemented the call-user functionality of phonebuzz.
+    */
     {
         method: 'POST',
         path: '/phase3/callUser',

@@ -14,7 +14,7 @@ const server = Hapi.server({
 async function start() {
 
     try {
-        await server.register(Inert);
+        await server.register(Inert);   // Inert is used to serve static files in nodejs
 
         /* The endpoints for each phase are defined in their own directory (phase1, phase2, etc)
         *  We register them in one nodejs app so one app can run all phases. This also allows us

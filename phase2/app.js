@@ -6,6 +6,16 @@ const accountSid = 'AC7c890db3d49a3f988f2ea19d9cf80369'; /* TODO: Remove these i
 const authToken = '416ca672786a7e75b34b59ee4b72b9ed';
 
 const routes = [
+    /*
+    * This route will be invoked after the user enters his phone number and presses "Call Me."
+    *
+    * This route will validate the phone number as a 10-digit number, and then use the Twilio api
+    * to call the user. Since phone buzz was fully implemented in phase1, this route will just invoke
+    * the route from phase1 rather than rewriting the phone buzz logic.
+    *
+    * If the call was successful, a success message will be returned to the user. Otherwise, a 503
+    * service unavailable will be returned. The client to this method will handle these cases appropriately.
+    */
     {
         method: 'POST',
         path: '/phase2/callUser',
