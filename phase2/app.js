@@ -7,20 +7,6 @@ const authToken = '416ca672786a7e75b34b59ee4b72b9ed';
 
 const routes = [
     {
-        method: 'GET',
-        path: '/',
-        handler: function(req, reply) {
-            return "hi";
-        }
-    },
-    {
-        method: 'GET',
-        path:'/phase2/',
-        handler: {
-            file: './phase2/index.html'
-        }
-    },
-    {
         method: 'POST',
         path: '/phase2/callUser',
         handler: function (request, response) {
@@ -51,6 +37,26 @@ const routes = [
                     /* Ensure sure phone number is 10 digits long. Better phone number validation could be done here. */
                     phone: Joi.string().regex(/^\d{10}$/)
                 }
+            }
+        }
+    },
+
+    // Home page for phase 2
+    {
+        method: 'GET',
+        path: '/phase2',
+        handler: {
+            file: './phase2/static/index.html'
+        }
+    },
+
+    // This route will serve all our static files (html, js, css)
+    {
+        method: 'GET',
+        path:'/phase2/static/{param*}',
+        handler: {
+            directory: {
+                path: './phase2/static/'
             }
         }
     }

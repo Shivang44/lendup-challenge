@@ -1,7 +1,8 @@
 const Hapi = require('hapi');
 const Inert = require('inert');
-const Phase1 = require('./phase1/routes.js');
-const Phase2 = require('./phase2/routes.js');
+const Phase1 = require('./phase1/app.js');
+const Phase2 = require('./phase2/app.js');
+const Phase3 = require('./phase3/app.js');
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -19,7 +20,7 @@ async function start() {
         *  We register them in one nodejs app so one app can run all phases. This also allows us
         *  to reuse code between the different phases, since they build on top of each other.
         */
-        let phases = Phase1.concat(Phase2);
+        let phases = Phase1.concat(Phase2).concat(Phase3);
         server.route(phases);
         await server.start();
     }
