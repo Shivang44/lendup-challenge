@@ -37,7 +37,6 @@ const routes = [
 
             const client = new Twilio(accountSid, authToken);
 
-            console.log("came");
             return client.api.calls
               .create({
                 url: 'http://' + request.info.host + '/phase1/phoneBuzz',   /* No need to rewrite code, just call phase1's endpoint! */
